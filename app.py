@@ -1010,7 +1010,7 @@ elif st.session_state.page == "summary":
     application_data,
     submitted_at
 )
-VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
                     """, (
                         p["name"],
                         p["name"],
