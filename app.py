@@ -161,7 +161,7 @@ def create_database():
 
         required_columns = {
             "student_name": "TEXT",
-            "applicant_name: "TEXT",
+            "applicant_name": "TEXT",
             "email": "TEXT",
             "phone": "TEXT",
             "category": "TEXT",
