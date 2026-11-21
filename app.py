@@ -1028,70 +1028,63 @@ VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
                     ))
 
                     application_id = cursor.lastrowid
+# SAVE APPLICATION ID
+                st.session_state.application_id = application_id
 
-                # SAVE APPLICATION ID
-st.session_state.application_id = application_id
+                # SAVE APPLICATION TO GOOGLE SHEETS
 
-# ==========================================
-# SAVE APPLICATION TO GOOGLE SHEETS
-# ==========================================
+                p = st.session_state.personal
+                a = st.session_state.academic
 
-p = st.session_state.personal
-a = st.session_state.academic
+                is_ug = a["category"] == "UG"
 
-is_ug = a["category"] == "UG"
+                payload = {
+                    "token": st.secrets["API_TOKEN"],
+                    "application_id": f"BCM{application_id:05d}",
+                    "name": p.get("name", ""),
+                    "gender": p.get("gender", ""),
+                    "dob": str(p.get("dob", "")),
+                    "address": p.get("address", ""),
+                    "contact": p.get("phone", ""),
+                    "guardian_name": p.get("guardian", ""),
+                    "guardian_phone": p.get("guardian_phone", ""),
+                    "email": p.get("email", ""),
+                    "category": a.get("category", ""),
+                    "tenth_board": a.get("board", ""),
+                    "tenth_percentage": a.get("10th_percentage", ""),
+                    "plus_one_percentage": a.get("plus_one_percentage", ""),
+                    "ug_preferences": a.get("preferences", []) if is_ug else [],
+                    "twelfth_stream": a.get("stream", ""),
+                    "twelfth_percentage": a.get("12th_percentage", ""),
+                    "current_degree": a.get("degree_category", ""),
+                    "degree_details": a.get("degree_course", ""),
+                    "pg_preferences": a.get("preferences", []) if not is_ug else []
+                }
 
-payload = {
-    "token": st.secrets["API_TOKEN"],
+                try:
+                    response = requests.post(
+                        st.secrets["GOOGLE_SCRIPT_URL"],
+                        json=payload,
+                        timeout=15
+                    )
 
-    "application_id": f"BCM{application_id:05d}",
+                    response.raise_for_status()
+                    result = response.json()
 
-    "name": p.get("name", ""),
-    "gender": p.get("gender", ""),
-    "dob": str(p.get("dob", "")),
-    "address": p.get("address", ""),
-    "contact": p.get("phone", ""),
-    "guardian_name": p.get("guardian", ""),
-    "guardian_phone": p.get("guardian_phone", ""),
-    "email": p.get("email", ""),
+                    if result.get("status") != "success":
+                        raise Exception("Google Sheets rejected the submission.")
 
-    "category": a.get("category", ""),
+                    st.session_state.sheets_saved = True
 
-    "tenth_board": a.get("board", ""),
-    "tenth_percentage": a.get("10th_percentage", ""),
-    "plus_one_percentage": a.get("plus_one_percentage", ""),
-    "ug_preferences": a.get("preferences", []) if is_ug else [],
+                except Exception:
+                    st.session_state.sheets_saved = False
 
-    "twelfth_stream": a.get("stream", ""),
-    "twelfth_percentage": a.get("12th_percentage", ""),
-    "current_degree": a.get("degree_category", ""),
-    "degree_details": a.get("degree_course", ""),
-    "pg_preferences": a.get("preferences", []) if not is_ug else []
-}
-
-try:
-    response = requests.post(
-        st.secrets["GOOGLE_SCRIPT_URL"],
-        json=payload,
-        timeout=15
-    )
-
-    response.raise_for_status()
-
-    result = response.json()
-
-    if result.get("status") != "success":
-        raise Exception("Google Sheets rejected the submission.")
-
-    st.session_state.sheets_saved = True
-
-except Exception:
-    st.session_state.sheets_saved = False
-
-# MOVE TO SUCCESS PAGE
-st.session_state.page = "success"
-
-st.rerun()
+                # MOVE TO SUCCESS PAGE
+                st.session_state.page = "success"
+                st.rerun()
+              
+    
+   
 
 # ==========================================
 # SUCCESS PAGE
