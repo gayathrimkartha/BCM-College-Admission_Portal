@@ -1013,6 +1013,7 @@ elif st.session_state.page == "summary":
 VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
                     """, (
                         p["name"],
+                        p["name"],
                         p["email"],
                         p["phone"],
                         a["category"],
