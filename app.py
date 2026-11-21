@@ -153,6 +153,26 @@ def create_database():
                 submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
+        cur = conn.cursor()
+
+        existing_columns = {
+            row[1] for row in cur.execute("PRAGMA table_info(applications)")
+        }
+
+        required_columns = {
+            "student_name": "TEXT",
+            "email": "TEXT",
+            "phone": "TEXT",
+            "category": "TEXT",
+            "application_data": "TEXT"
+        }
+
+        for column, dtype in required_columns.items():
+            if column not in existing_columns:
+                cur.execute(
+                    f"ALTER TABLE applications ADD COLUMN {column} {dtype}"
+                )
+        
 
 create_database()
 
