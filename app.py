@@ -1002,6 +1002,7 @@ elif st.session_state.page == "summary":
                     cursor.execute("""
                         INSERT INTO applications (
     student_name,
+    applicant_name,
     email,
     phone,
     category,
