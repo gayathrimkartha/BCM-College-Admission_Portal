@@ -66,7 +66,8 @@ BOARDS = [
     "Kerala State Board (SSLC)",
     "CBSE",
     "CISCE (ICSE)",
-    "Tamil Nadu State Board (SSLC)"
+    "Tamil Nadu State Board (SSLC)",
+    "Others"
 ]
 
 PERCENTAGES = [
@@ -80,14 +81,11 @@ PERCENTAGES = [
 ]
 
 STREAMS = [
-    "Science (Biology)",
-    "Science (Mathematics)",
-    "Science (Computer Science)",
-    "Science (Bio-Maths)",
+    "Science",
     "Commerce",
-    "Commerce (Computer Application)",
     "Humanities / Arts",
     "Vocational / VHSE",
+    "Technical",
     "Other"
 ]
 
@@ -447,13 +445,7 @@ with col2:
         unsafe_allow_html=True
     )
 
-    st.markdown(
-        '<p class="college-subtitle">'
-        'Online Student Registration Portal'
-        '</p>',
-        unsafe_allow_html=True
-    )
-
+    
 st.divider()
 
 
@@ -464,8 +456,8 @@ st.divider()
 left, right = st.columns([6, 1])
 
 with right:
-    if st.button("⌂ Home", use_container_width=True):
-        st.session_state.page = "home"
+    if st.button("⌂ College Website", use_container_width=True):
+        st.session_state.page = "https://www.bcmcollege.ac.in/"
         st.rerun()
 
 # ==========================================
