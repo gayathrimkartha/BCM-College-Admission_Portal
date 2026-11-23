@@ -701,42 +701,42 @@ if st.session_state.page == "academic":
 
     else:
 
-    st.markdown("### Postgraduate Admission")
+     st.markdown("### Postgraduate Admission")
 
-    st.selectbox(
+     st.selectbox(
         "12th Standard Stream *",
         STREAMS,
         key="pg_stream"
-    )
+     )
 
-    st.selectbox(
+     st.selectbox(
         "12th Standard Percentage *",
         PERCENTAGES,
         key="pg_percentage"
-    )
+     )
 
-    st.selectbox(
+     st.selectbox(
         "Current Degree Programme Category *",
         [
             "Science",
             "Arts / Humanities",
             "Commerce / Management",
             "Other"
-        ],
-        key="degree_category"
-    )
+         ],
+         key="degree_category"
+     )
 
-    current_category = st.session_state.degree_category
+     current_category = st.session_state.degree_category
 
-    st.text_input(
+     st.text_input(
         "What degree programme are you currently pursuing or have completed? *",
         key="degree_course",
         placeholder="Enter your degree programme"
-    )
+     )
 
-    st.markdown("### Preferred Master's Degree Courses")
+     st.markdown("### Preferred Master's Degree Courses")
 
-    preferences = show_preferences("pg", PG_COURSES)
+     preferences = show_preferences("pg", PG_COURSES)
 
     if st.button("Next →", key="pg_next"):
 
