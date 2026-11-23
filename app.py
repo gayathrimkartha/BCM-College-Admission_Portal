@@ -476,11 +476,11 @@ if st.session_state.page == "home":
              REGISTRATION 2027-28
         </h2>
         <p style="text-align:center;font-size:17px;">
-            Welcome to the B.C.M. College Kottayam
+            Welcome to the B.C.M. College Kottayam (Autonomous)
             student registration portal.
             <br>
-            Apply for Undergraduate and Postgraduate
-            programmes through our registration system.
+            Register for Undergraduate and Postgraduate
+            programmes
         </p>
         <hr>
         <h3 style="text-align:center;">
@@ -1128,6 +1128,6 @@ st.markdown("""
 <div class="footer-text">
     B.C.M. College Kottayam (Autonomous)
     <br>
-    Online Student Admission Portal
+    Student Registration Portal
 </div>
 """, unsafe_allow_html=True)
