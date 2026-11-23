@@ -453,12 +453,6 @@ st.divider()
 # HOME NAVIGATION
 # ==========================================
 
-left, right = st.columns([6, 1])
-
-with right:
-    if st.button("⌂ College Website", use_container_width=True):
-        st.session_state.page = "https://www.bcmcollege.ac.in/"
-        st.rerun()
 
 # ==========================================
 # HOME PAGE
