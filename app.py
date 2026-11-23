@@ -726,9 +726,6 @@ if st.session_state.page == "academic":
             key="degree_category"
         )
 
-        current_category = st.session_state.degree_category
-
-        available_degree_courses = DEGREE_COURSES[current_category]
 
         st.text_input(
             "What degree programme are you currently pursuing or have completed? *",
