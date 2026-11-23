@@ -201,13 +201,6 @@ create_database()
 # IMAGE LOADING
 # ==========================================
 
-def image_to_base64(path):
-    if path.exists():
-        return base64.b64encode(
-            path.read_bytes()
-        ).decode("utf-8")
-    return ""
-
 
 def load_logo(path):
     if not path.exists():
