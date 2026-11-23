@@ -776,10 +776,10 @@ if st.session_state.page == "academic":
         available_degree_courses = DEGREE_COURSES[current_category]
 
        st.text_input(
-    "What degree programme are you currently pursuing or have completed? *",
-    key="degree_course",
-    placeholder="Example: B.Sc Computer Science, B.Com, BA English"
-)
+            "What degree programme are you currently pursuing or have completed? *",
+            key="degree_course",
+            placeholder="Example: B.Sc Computer Science, B.Com, BA English"
+        )
         st.markdown("### Preferred Master's Degree Courses")
 
         preferences = show_preferences("pg", PG_COURSES)
