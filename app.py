@@ -762,19 +762,19 @@ if st.session_state.page == "academic":
             st.session_state.page = "summary"
             st.rerun()
 
-st.divider()
 
-if st.button("← Back to Personal Information"):
-    st.session_state.page = "personal"
-    st.rerun()
-
-# ==========================================
-# APPLICATION SUMMARY
-# ==========================================
 # ==========================================
 # APPLICATION SUMMARY PAGE
 # ==========================================
+    # BACK BUTTON - ACADEMIC PAGE ONLY
+    st.divider()
 
+    if st.button(
+        "← Back to Personal Information",
+        use_container_width=True
+    ):
+        st.session_state.page = "personal"
+        st.rerun()
 elif st.session_state.page == "summary":
 
     st.title("📋 Application Summary")
