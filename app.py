@@ -699,7 +699,7 @@ if st.session_state.page == "academic":
     # PG FORM
     # --------------------------------------
 
-else:
+    else:
 
     st.markdown("### Postgraduate Admission")
 
