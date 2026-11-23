@@ -139,11 +139,17 @@ DEGREE_COURSES = {
 # ==========================================
 
 def create_database():
+
     with sqlite3.connect(DB_FILE) as conn:
-        conn.execute("""
+
+        cur = conn.cursor()
+
+        # Create table if it does not exist
+        cur.execute("""
             CREATE TABLE IF NOT EXISTS applications (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 student_name TEXT,
+                applicant_name TEXT,
                 email TEXT,
                 phone TEXT,
                 category TEXT,
@@ -151,29 +157,45 @@ def create_database():
                 submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
-        cur = conn.cursor()
+
+        # Read existing database columns
+        cur.execute("PRAGMA table_info(applications)")
 
         existing_columns = {
-            row[1] for row in cur.execute("PRAGMA table_info(applications)")
+            row[1] for row in cur.fetchall()
         }
 
+        # Columns required by the application
         required_columns = {
             "student_name": "TEXT",
             "applicant_name": "TEXT",
             "email": "TEXT",
             "phone": "TEXT",
             "category": "TEXT",
-            "application_data": "TEXT"
+            "application_data": "TEXT",
+            "submitted_at": "TIMESTAMP"
         }
 
+        # Add only columns that are missing
         for column, dtype in required_columns.items():
+
             if column not in existing_columns:
-                cur.execute(
-                    f"ALTER TABLE applications ADD COLUMN {column} {dtype}"
-                )
-        
+
+                try:
+                    cur.execute(
+                        f"ALTER TABLE applications ADD COLUMN {column} {dtype}"
+                    )
+
+                except sqlite3.OperationalError as e:
+                    if "duplicate column name" not in str(e).lower():
+                        raise
+
+        conn.commit()
+
 
 create_database()
+
+
 
 # ==========================================
 # IMAGE LOADING
