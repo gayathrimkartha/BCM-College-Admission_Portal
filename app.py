@@ -1084,45 +1084,18 @@ if st.session_state.page == "success":
 
             st.markdown(
                 "<h2 style='text-align:center;'>"
-                "Application Submitted Successfully!"
+                "Registration Submitted Successfully!"
                 "</h2>",
                 unsafe_allow_html=True
             )
 
-            st.markdown(
-                "<p style='text-align:center;color:gray;'>"
-                "Your admission application has been received."
-                "</p>",
-                unsafe_allow_html=True
-            )
-
-            st.divider()
-
             
-
-            st.markdown("### Application Details")
-
-            st.info(
-                f"**Application ID:** "
-                f"BCM{st.session_state.application_id:05d}"
-            )
-
-            st.markdown(
-                """
-                **College:** B.C.M. College Kottayam (Autonomous)
-
-                **Status:** Submitted Successfully
-
-                **Next Step:** Please keep your Application ID
-                safe for future reference.
-                """
-            )
-
+           
             st.divider()
 
             st.markdown(
                 "<h4 style='text-align:center;'>"
-                "Thank You for Choosing B.C.M. College!"
+                "Thank You for Choosing B.C.M. College Kottayam (Autonomous)!"
                 "</h4>",
                 unsafe_allow_html=True
             )
