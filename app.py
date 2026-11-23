@@ -955,18 +955,9 @@ elif st.session_state.page == "summary":
     # BACK AND SUBMIT BUTTONS
     # --------------------------------------
 
-    back, submit = st.columns(2)
+    submit = st.columns(1)
 
-    with back:
-
-        if st.button(
-            "← Back to Academic Information",
-            use_container_width=True
-        ):
-
-            st.session_state.page = "academic"
-            st.rerun()
-
+   
     with submit:
 
         if st.button(
@@ -985,7 +976,7 @@ elif st.session_state.page == "summary":
                 # SAVE APPLICATION INTO SQLITE DATABASE
                 with sqlite3.connect(DB_FILE) as conn:
 
-                    cursor = conn.cursor()
+                  cursor = conn.cursor()
 
                     cursor.execute("""
                         INSERT INTO applications (
