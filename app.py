@@ -456,10 +456,6 @@ with col2:
 st.divider()
 
 
-# ==========================================
-# HOME NAVIGATION
-# ==========================================
-
 
 # ==========================================
 # HOME PAGE
@@ -467,15 +463,7 @@ st.divider()
 
 if st.session_state.page == "home":
 
-    if building_base64:
-        st.markdown(f"""
-        <div class="hero-banner"
-        style="background-image:
-        url('data:image/jpeg;base64,{building_base64}');">
-            <div class="hero-overlay">
-                
-        
-        """, unsafe_allow_html=True)
+   
 
     st.markdown("""
     <div class="portal-card">
