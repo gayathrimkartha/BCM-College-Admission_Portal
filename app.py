@@ -976,7 +976,7 @@ elif st.session_state.page == "summary":
                 # SAVE APPLICATION INTO SQLITE DATABASE
                 with sqlite3.connect(DB_FILE) as conn:
 
-                  cursor = conn.cursor()
+                    cursor = conn.cursor()
 
                     cursor.execute("""
                         INSERT INTO applications (
