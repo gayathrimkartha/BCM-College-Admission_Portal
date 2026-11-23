@@ -775,25 +775,19 @@ if st.session_state.page == "academic":
 
         available_degree_courses = DEGREE_COURSES[current_category]
 
-        current_degree = st.session_state.degree_course
-
-        if current_degree not in ["Select Degree Course"] + available_degree_courses:
-            st.session_state.degree_course = "Select Degree Course"
-
-        st.selectbox(
-            "What degree programme are you currently pursuing or have completed?",
-            ["Select Degree Course"] + available_degree_courses,
-            key="degree_course"
-        )
-
+       st.text_input(
+    "What degree programme are you currently pursuing or have completed? *",
+    key="degree_course",
+    placeholder="Example: B.Sc Computer Science, B.Com, BA English"
+)
         st.markdown("### Preferred Master's Degree Courses")
 
         preferences = show_preferences("pg", PG_COURSES)
 
         if st.button("Next →", key="pg_next"):
 
-            if st.session_state.degree_course == "Select Degree Course":
-                st.error("Please select your degree course.")
+            if not st.session_state.degree_course.strip():
+                st.error("Please enter your degree programme.")
 
             elif not preferences:
                 st.error("Please select at least one Master's course.")
