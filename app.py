@@ -88,51 +88,8 @@ STREAMS = [
     "Other"
 ]
 
-DEGREE_COURSES = {
-    "Science": [
-        "B.Sc. Mathematics",
-        "B.Sc. Statistics",
-        "B.Sc. Physics",
-        "B.Sc. Chemistry",
-        "B.Sc. Botany",
-        "B.Sc. Zoology",
-        "B.Sc. Computer Science",
-        "B.Sc. Psychology",
-        "B.Sc. Biotechnology",
-        "B.Sc. Microbiology",
-        "B.Sc. Electronics",
-        "B.Sc. Data Science"
-    ],
 
-    "Arts / Humanities": [
-        "B.A. English",
-        "B.A. Malayalam",
-        "B.A. History",
-        "B.A. Economics",
-        "B.A. Political Science",
-        "B.A. Sociology",
-        "B.A. Psychology",
-        "B.A. Journalism",
-        "B.A. Philosophy"
-    ],
 
-    "Commerce / Management": [
-        "B.Com. Finance",
-        "B.Com. Computer Applications",
-        "B.Com. Cooperation",
-        "B.Com. Taxation",
-        "B.Com. Marketing",
-        "BBA",
-        "BCA",
-        "BSW (Social Work)"
-    ],
-
-    "Other": [
-        "B.Voc.",
-        "Integrated Degree",
-        "Other Bachelor's Degree"
-    ]
-}
 
 # ==========================================
 # DATABASE
@@ -495,9 +452,7 @@ if st.session_state.page == "home":
         ):
             st.session_state.page = "personal"
             st.rerun()
-# ==========================================
-# PERSONAL INFORMATION PAGE
-# ==========================================
+
 # ================= PERSONAL INFORMATION PAGE =================
 
 elif st.session_state.page == "personal":
