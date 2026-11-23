@@ -26,7 +26,6 @@ st.set_page_config(
 BASE_DIR = Path(__file__).parent
 
 LOGO_FILE = BASE_DIR / "bcm_logo.jpeg.jpeg"
-COLLEGE_FILE = BASE_DIR / "bcm_campus.jpg.jpeg"
 DB_FILE = BASE_DIR / "bcm_registrations.db"
 
 # ==========================================
@@ -180,12 +179,6 @@ create_database()
 # IMAGE LOADING
 # ==========================================
 
-
-
-# ==========================================
-# IMAGE LOADING
-# ==========================================
-
 def image_to_base64(path):
     if path.exists():
         return base64.b64encode(
@@ -220,7 +213,6 @@ def load_logo(path):
 
 
 logo_image = load_logo(LOGO_FILE)
-building_base64 = image_to_base64(COLLEGE_FILE)
 
 
 # ==========================================
