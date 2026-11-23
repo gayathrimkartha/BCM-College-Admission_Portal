@@ -956,10 +956,7 @@ elif st.session_state.page == "summary":
     # --------------------------------------
 
     submit = st.columns(1)
-
-   
     with submit:
-
         if st.button(
             "✅ SAVE AND SUBMIT",
             use_container_width=True
