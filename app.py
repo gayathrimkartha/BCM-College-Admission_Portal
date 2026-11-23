@@ -956,7 +956,6 @@ VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
                 is_ug = a["category"] == "UG"
 
                 payload = {
-                    "token": st.secrets["API_TOKEN"],
                     "name": p.get("name", ""),
                     "gender": p.get("gender", ""),
                     "dob": str(p.get("dob", "")),
@@ -1047,7 +1046,7 @@ if st.session_state.page == "success":
             st.write("")
 
             if st.button(
-                "🏠 Return to Home",
+                "Register another student",
                 use_container_width=True,
                 type="primary"
             ):
