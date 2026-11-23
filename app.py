@@ -1001,10 +1001,7 @@ VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
                         })
                     ))
 
-                    application_id = cursor.lastrowid
-# SAVE APPLICATION ID
-                st.session_state.application_id = application_id
-
+                    
                 # SAVE APPLICATION TO GOOGLE SHEETS
 
                 p = st.session_state.personal
@@ -1014,7 +1011,6 @@ VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
 
                 payload = {
                     "token": st.secrets["API_TOKEN"],
-                    "application_id": f"BCM{application_id:05d}",
                     "name": p.get("name", ""),
                     "gender": p.get("gender", ""),
                     "dob": str(p.get("dob", "")),
