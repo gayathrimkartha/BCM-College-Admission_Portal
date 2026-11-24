@@ -988,6 +988,7 @@ VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
             is_ug = a["category"] == "UG"
             
             payload = {
+                "token": st.secrets["API_TOKEN"],
                 "name": p.get("name", ""),
                 "gender": p.get("gender", ""),
                 "dob": str(p.get("dob", "")),
