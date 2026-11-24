@@ -213,12 +213,15 @@ DEFAULTS = {
     "pg_stream": STREAMS[0],
     "pg_percentage": PERCENTAGES[0],
     "degree_category": "Science",
-    "degree_course": "Select Degree Course"
+    "degree_course": ""
 }
 
 for key, value in DEFAULTS.items():
     if key not in st.session_state:
         st.session_state[key] = value
+# Clear old default value from existing sessions
+if st.session_state.get("degree_course") == "Select Degree Course":
+    st.session_state["degree_course"] = ""
 
 for prefix in ["ug", "pg"]:
     for i in range(1, 6):
@@ -620,6 +623,7 @@ def show_preferences(prefix, courses):
 
     return selected
 
+
 # ==========================================
 # ACADEMIC INFORMATION PAGE
 # ==========================================
@@ -675,15 +679,64 @@ if st.session_state.page == "academic":
 
         preferences = show_preferences("ug", UG_COURSES)
 
-        if st.button("Next →", key="ug_next"):
+    # --------------------------------------
+    # PG FORM
+    # --------------------------------------
+
+    else:
+
+        st.markdown("### Postgraduate Admission")
+
+        st.selectbox(
+            "12th Standard Stream *",
+            STREAMS,
+            key="pg_stream"
+        )
+
+        st.selectbox(
+            "12th Standard Percentage *",
+            PERCENTAGES,
+            key="pg_percentage"
+        )
+
+        st.selectbox(
+            "Current Degree Programme Category *",
+            [
+                "Science",
+                "Arts / Humanities",
+                "Commerce / Management",
+                "Other"
+            ],
+            key="degree_category"
+        )
+        st.text_input(
+            "What degree programme are you currently pursuing or have completed? *",
+            key="degree_course",
+            placeholder="Enter the degree programme(Major/Main)"
+        )
+          
+
+        st.markdown("### Preferred Master's Degree Courses")
+        preferences = show_preferences("pg", PG_COURSES)
+
+    # --------------------------------------
+    # SINGLE NEXT BUTTON FOR UG AND PG
+    # --------------------------------------
+
+    if st.button("Next →", key="academic_next"):
+
+        if category == "Undergraduate (UG)":
 
             if st.session_state.ug_plus_one <= 0:
+
                 st.error("Enter your Plus One percentage.")
 
             elif not preferences:
+
                 st.error("Please select at least one course.")
 
             else:
+
                 st.session_state.academic = {
                     "category": "UG",
                     "board": st.session_state.ug_board,
@@ -695,73 +748,29 @@ if st.session_state.page == "academic":
                 st.session_state.page = "summary"
                 st.rerun()
 
-    # --------------------------------------
-    # PG FORM
-    # --------------------------------------
-
-    else:
-
-     st.markdown("### Postgraduate Admission")
-
-     st.selectbox(
-        "12th Standard Stream *",
-        STREAMS,
-        key="pg_stream"
-     )
-
-     st.selectbox(
-        "12th Standard Percentage *",
-        PERCENTAGES,
-        key="pg_percentage"
-     )
-
-     st.selectbox(
-        "Current Degree Programme Category *",
-        [
-            "Science",
-            "Arts / Humanities",
-            "Commerce / Management",
-            "Other"
-         ],
-         key="degree_category"
-     )
-
-     current_category = st.session_state.degree_category
-
-     st.text_input(
-        "What degree programme are you currently pursuing or have completed? *",
-        key="degree_course",
-        placeholder="Enter your degree programme"
-     )
-
-     st.markdown("### Preferred Master's Degree Courses")
-
-     preferences = show_preferences("pg", PG_COURSES)
-
-    if st.button("Next →", key="pg_next"):
-
-        if not st.session_state.degree_course.strip():
-
-            st.error("Please enter your degree programme.")
-
-        elif not preferences:
-
-            st.error("Please select at least one Master's course.")
-
         else:
 
-            st.session_state.academic = {
-                "category": "PG",
-                "stream": st.session_state.pg_stream,
-                "12th_percentage": st.session_state.pg_percentage,
-                "degree_category": current_category,
-                "degree_course": st.session_state.degree_course.strip(),
-                "preferences": preferences
-            }
+            if not st.session_state.degree_course.strip():
 
-            st.session_state.page = "summary"
-            st.rerun()
+                st.error("Please enter your degree programme.")
 
+            elif not preferences:
+
+                st.error("Please select at least one Master's course.")
+
+            else:
+
+                st.session_state.academic = {
+                    "category": "PG",
+                    "stream": st.session_state.pg_stream,
+                    "12th_percentage": st.session_state.pg_percentage,
+                    "degree_category": st.session_state.degree_category,
+                    "degree_course": st.session_state.degree_course.strip(),
+                    "preferences": preferences
+                }
+
+                st.session_state.page = "summary"
+                st.rerun()
 
 # ==========================================
 # APPLICATION SUMMARY PAGE
