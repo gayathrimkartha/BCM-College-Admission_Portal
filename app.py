@@ -977,58 +977,76 @@ VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
                     ))
 
                     
-                # SAVE APPLICATION TO GOOGLE SHEETS
 
-                p = st.session_state.personal
-                a = st.session_state.academic
-
-                is_ug = a["category"] == "UG"
-
-                payload = {
-                    "name": p.get("name", ""),
-                    "gender": p.get("gender", ""),
-                    "dob": str(p.get("dob", "")),
-                    "address": p.get("address", ""),
-                    "contact": p.get("phone", ""),
-                    "guardian_name": p.get("guardian", ""),
-                    "guardian_phone": p.get("guardian_phone", ""),
-                    "email": p.get("email", ""),
-                    "category": a.get("category", ""),
-                    "tenth_board": a.get("board", ""),
-                    "tenth_percentage": a.get("10th_percentage", ""),
-                    "plus_one_percentage": a.get("plus_one_percentage", ""),
-                    "ug_preferences": a.get("preferences", []) if is_ug else [],
-                    "twelfth_stream": a.get("stream", ""),
-                    "twelfth_percentage": a.get("12th_percentage", ""),
-                    "current_degree": a.get("degree_category", ""),
-                    "degree_details": a.get("degree_course", ""),
-                    "pg_preferences": a.get("preferences", []) if not is_ug else []
-                }
-
+            # ==========================================
+            # SAVE APPLICATION TO GOOGLE SHEETS
+            # ==========================================
+            
+            p = st.session_state.personal
+            a = st.session_state.academic
+            
+            is_ug = a["category"] == "UG"
+            
+            payload = {
+                "name": p.get("name", ""),
+                "gender": p.get("gender", ""),
+                "dob": str(p.get("dob", "")),
+                "address": p.get("address", ""),
+                "contact": p.get("phone", ""),
+                "guardian_name": p.get("guardian", ""),
+                "guardian_phone": p.get("guardian_phone", ""),
+                "email": p.get("email", ""),
+                "category": a.get("category", ""),
+                "tenth_board": a.get("board", ""),
+                "tenth_percentage": a.get("10th_percentage", ""),
+                "plus_one_percentage": a.get("plus_one_percentage", ""),
+                "ug_preferences": a.get("preferences", []) if is_ug else [],
+                "twelfth_stream": a.get("stream", ""),
+                "twelfth_percentage": a.get("12th_percentage", ""),
+                "current_degree": a.get("degree_category", ""),
+                "degree_details": a.get("degree_course", ""),
+                "pg_preferences": a.get("preferences", []) if not is_ug else []
+            }
+            
+            try:
+                script_url = st.secrets["GOOGLE_SCRIPT_URL"]
+            
+                response = requests.post(
+                    script_url,
+                    json=payload,
+                    timeout=30
+                )
+            
+                response.raise_for_status()
+            
                 try:
-                    response = requests.post(
-                        st.secrets["GOOGLE_SCRIPT_URL"],
-                        json=payload,
-                        timeout=15
-                    )
-
-                    response.raise_for_status()
                     result = response.json()
-
-                    if result.get("status") != "success":
-                        raise Exception("Google Sheets rejected the submission.")
-
-                    st.session_state.sheets_saved = True
-
-                except Exception:
-                    st.session_state.sheets_saved = False
-
-                # MOVE TO SUCCESS PAGE
-                st.session_state.page = "success"
-                st.rerun()
-              
-    
-   
+                except ValueError:
+                    raise Exception(
+                        "Google Apps Script did not return JSON. "
+                        "Response: " + response.text[:500]
+                    )
+            
+                if result.get("status") != "success":
+                    raise Exception(
+                        "Google Apps Script error: " + str(result)
+                    )
+            
+                st.session_state.sheets_saved = True
+                st.session_state.sheets_error = ""
+            
+            except Exception as e:
+            
+                st.session_state.sheets_saved = False
+                st.session_state.sheets_error = str(e)
+            
+                print("GOOGLE SHEETS ERROR:", str(e))
+            
+            # MOVE TO SUCCESS PAGE
+            st.session_state.page = "success"
+            st.rerun()
+            
+               
 
 # ==========================================
 # SUCCESS PAGE
