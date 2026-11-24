@@ -926,66 +926,62 @@ elif st.session_state.page == "summary":
 
     st.divider()
 
+
     # --------------------------------------
     # BACK AND SUBMIT BUTTONS
     # --------------------------------------
 
-    submit = st.columns(1)
-    with submit[0]:
-        if st.button(
-            "✅ SAVE AND SUBMIT",
-            use_container_width=True
-        ):
+    if st.button(
+        "✅ SAVE AND SUBMIT",
+        use_container_width=True
+    ):
 
-            if not p or not a:
+        if not p or not a:
 
-                st.error(
-                    "Please complete all application details.")
+            st.error("Please complete all application details.")
 
-            else:
+        else:
 
-                # SAVE APPLICATION INTO SQLITE DATABASE
-                with sqlite3.connect(DB_FILE) as conn:
+            # ==================================
+            # SAVE APPLICATION INTO SQLITE
+            # ==================================
 
-                    cursor = conn.cursor()
+            with sqlite3.connect(DB_FILE) as conn:
 
-                    cursor.execute("""
-                        INSERT INTO applications (
-    student_name,
-    applicant_name,
-    email,
-    phone,
-    category,
-    application_data,
-    submitted_at
-)
-VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-                    """, (
-                        p["name"],
-                        p["name"],
-                        p["email"],
-                        p["phone"],
-                        a["category"],
-                        json.dumps({
-                            "personal": {
-                                **p,
-                                "dob": str(p["dob"])
-                            },
-                            "academic": a
-                        })
-                    ))
+                cursor = conn.cursor()
 
-                    
+                cursor.execute("""
+                    INSERT INTO applications (
+                        student_name,
+                        applicant_name,
+                        email,
+                        phone,
+                        category,
+                        application_data,
+                        submitted_at
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+                """, (
+                    p["name"],
+                    p["name"],
+                    p["email"],
+                    p["phone"],
+                    a["category"],
+                    json.dumps({
+                        "personal": {
+                            **p,
+                            "dob": str(p["dob"])
+                        },
+                        "academic": a
+                    })
+                ))
 
-            # ==========================================
+            # ==================================
             # SAVE APPLICATION TO GOOGLE SHEETS
-            # ==========================================
-            
-            p = st.session_state.personal
-            a = st.session_state.academic
-            
+            # ==================================
+
             is_ug = a["category"] == "UG"
-            
+
             payload = {
                 "token": st.secrets["API_TOKEN"],
                 "name": p.get("name", ""),
@@ -1007,44 +1003,44 @@ VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
                 "degree_details": a.get("degree_course", ""),
                 "pg_preferences": a.get("preferences", []) if not is_ug else []
             }
-            
+
             try:
+
                 script_url = st.secrets["GOOGLE_SCRIPT_URL"]
-            
+
                 response = requests.post(
                     script_url,
                     json=payload,
                     timeout=30
                 )
-            
+
                 response.raise_for_status()
-            
-                try:
-                    result = response.json()
-                except ValueError:
-                    raise Exception(
-                        "Google Apps Script did not return JSON. "
-                        "Response: " + response.text[:500]
-                    )
-            
+
+                result = response.json()
+
                 if result.get("status") != "success":
+
                     raise Exception(
-                        "Google Apps Script error: " + str(result)
+                        result.get("message", "Google Sheets saving failed.")
                     )
-            
+
                 st.session_state.sheets_saved = True
                 st.session_state.sheets_error = ""
-            
+
             except Exception as e:
-            
+
                 st.session_state.sheets_saved = False
                 st.session_state.sheets_error = str(e)
-            
+
                 print("GOOGLE SHEETS ERROR:", str(e))
-            
+
+            # ==================================
             # MOVE TO SUCCESS PAGE
+            # ==================================
+
             st.session_state.page = "success"
             st.rerun()
+
             
                
 
