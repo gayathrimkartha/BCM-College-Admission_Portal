@@ -940,8 +940,7 @@ elif st.session_state.page == "summary":
             if not p or not a:
 
                 st.error(
-                    "Please complete all application details."
-                )
+                    "Please complete all application details.")
 
             else:
 
