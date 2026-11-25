@@ -848,12 +848,11 @@ if st.session_state.page == "academic":
 
         if category == "Undergraduate (UG)":
 
-            if st.session_state.ug_plus_one <= 0:
+          if not major1_preferences:
 
-                st.error("Enter your Plus One percentage.")
+            st.error("Please select at least one Major 1 course.")
 
-            elif not major1_preferences:
-                st.error("Please select at least one Major 1 course.")
+    else:
 
             else:
 
