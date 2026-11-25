@@ -847,7 +847,7 @@ if st.session_state.page == "academic":
 if st.button("Next →", key="academic_next"):
 
        
-if category == "Undergraduate (UG)":
+ if category == "Undergraduate (UG)":
 
     if not major1_preferences:
 
