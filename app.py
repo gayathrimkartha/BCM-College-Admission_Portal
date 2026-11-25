@@ -844,7 +844,7 @@ if st.session_state.page == "academic":
     # SINGLE NEXT BUTTON FOR UG AND PG
     # --------------------------------------
 
-    if st.button("Next →", key="academic_next"):
+if st.button("Next →", key="academic_next"):
 
        
 if category == "Undergraduate (UG)":
