@@ -852,9 +852,8 @@ if st.session_state.page == "academic":
 
                 st.error("Enter your Plus One percentage.")
 
-            elif not preferences:
-
-                st.error("Please select at least one course.")
+           elif not major1_preferences:
+               st.error("Please select at least one Major 1 course.")
 
             else:
 
@@ -978,9 +977,19 @@ elif st.session_state.page == "summary":
         
         st.subheader("UG Course Preferences")
 
+        st.write("**Major 1 Preferences**")
+
         for i, course in enumerate(
-            a.get("preferences", []), 1
+            a.get("major1_preferences", []), 1
         ):
+            st.write(f"{i}. {course}")
+        
+        st.write("**Major 2 Preferences**")
+        
+        for i, course in enumerate(
+            a.get("major2_preferences", []), 1
+        ):
+            st.write(f"{i}. {course}")
             if course:
                 st.write(f"{i}. {course}")
 
