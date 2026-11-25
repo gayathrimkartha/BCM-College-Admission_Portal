@@ -852,8 +852,8 @@ if st.session_state.page == "academic":
 
                 st.error("Enter your Plus One percentage.")
 
-           elif not major1_preferences:
-               st.error("Please select at least one Major 1 course.")
+            elif not major1_preferences:
+                st.error("Please select at least one Major 1 course.")
 
             else:
 
