@@ -846,28 +846,28 @@ if st.session_state.page == "academic":
 
     if st.button("Next →", key="academic_next"):
 
-        if category == "Undergraduate (UG)":
+       
+if category == "Undergraduate (UG)":
 
-          if not major1_preferences:
+    if not major1_preferences:
 
-            st.error("Please select at least one Major 1 course.")
+        st.error("Please select at least one Major 1 course.")
 
     else:
 
-            else:
+        st.session_state.academic = {
+            "category": "UG",
+            "board": st.session_state.ug_board,
+            "10th_percentage": st.session_state.ug_percentage,
+            "current_stream": st.session_state.ug_stream,
+            "plus_one_percentage": st.session_state.ug_plus_one,
+            "major1_preferences": major1_preferences,
+            "major2_preferences": major2_preferences,
+            "training_programmes": st.session_state.ug_training_programmes
+        }
 
-                st.session_state.academic = {
-                    "category": "UG",
-                    "board": st.session_state.ug_board,
-                    "10th_percentage": st.session_state.ug_percentage,
-                    "current_stream": st.session_state.ug_stream,
-                    "plus_one_percentage": st.session_state.ug_plus_one,
-                    "major1_preferences": major1_preferences,
-                    "major2_preferences": major2_preferences,
-                    "training_programmes": st.session_state.ug_training_programmes
-                }
-                st.session_state.page = "summary"
-                st.rerun()
+        st.session_state.page = "summary"
+        st.rerun()
 
         else:
 
